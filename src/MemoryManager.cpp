@@ -108,7 +108,12 @@ std::vector<int> LRUMemoryManager::generateInstructionStream(int length, unsigne
     };
 
     while (static_cast<int>(instructions.size()) < length) {
+<<<<<<< HEAD
         // 每轮生成 4 次访问：顺序、低地址、顺序、高地址，近似满足 50%/25%/25%。
+=======
+        // 起点 m 用来产生第一条顺序执行地址 m + 1。
+        // 每轮产生 4 次访问：顺序、低地址、顺序、高地址，近似满足 50%/25%/25%。
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
         int m = startDist(rng);
         pushAddress(m + 1);
 

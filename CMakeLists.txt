@@ -15,7 +15,10 @@ add_executable(os_experiment
 )
 
 target_include_directories(os_experiment PRIVATE include)
+<<<<<<< HEAD
 
 if(MSVC)
     target_compile_options(os_experiment PRIVATE /utf-8)
 endif()
+=======
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75

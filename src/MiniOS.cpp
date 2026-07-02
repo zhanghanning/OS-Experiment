@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <iostream>
 #include <limits>
+<<<<<<< HEAD
 
 namespace {
 
@@ -29,13 +30,29 @@ void MiniOS::runInteractive() {
         std::cout << "3. 综合运行：调度 + LRU 存储管理\n";
         std::cout << "4. 一键演示全部实验\n";
         std::cout << "0. 退出\n";
+=======
+#include <numeric>
+
+void MiniOS::runInteractive() {
+    while (true) {
+        std::cout << "\n========== Mini OS Simulator ==========" << '\n';
+        std::cout << "1. 实验一：处理机调度（时间片轮转）" << '\n';
+        std::cout << "2. 实验二：虚拟存储页面置换（LRU）" << '\n';
+        std::cout << "3. 综合运行：调度 + LRU 存储管理" << '\n';
+        std::cout << "4. 一键演示全部实验" << '\n';
+        std::cout << "0. 退出" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
         std::cout << "请选择：";
 
         int choice = -1;
         if (!(std::cin >> choice)) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+<<<<<<< HEAD
             std::cout << "输入无效，请重新输入。\n";
+=======
+            std::cout << "输入无效，请重新输入。" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
             continue;
         }
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -54,10 +71,17 @@ void MiniOS::runInteractive() {
                 runDemo();
                 break;
             case 0:
+<<<<<<< HEAD
                 std::cout << "系统退出。\n";
                 return;
             default:
                 std::cout << "没有该选项，请重新输入。\n";
+=======
+                std::cout << "系统退出。" << '\n';
+                return;
+            default:
+                std::cout << "没有该选项，请重新输入。" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
         }
     }
 }
@@ -69,13 +93,21 @@ void MiniOS::runDemo() {
 }
 
 std::vector<PCB> MiniOS::createDefaultProcesses() const {
+<<<<<<< HEAD
     return {
+=======
+    std::vector<PCB> processes = {
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
         {"Q1", 2, 0, ProcessState::Ready, 1, {}, 0},
         {"Q2", 3, 0, ProcessState::Ready, 2, {}, 0},
         {"Q3", 1, 0, ProcessState::Ready, 3, {}, 0},
         {"Q4", 2, 0, ProcessState::Ready, 4, {}, 0},
         {"Q5", 4, 0, ProcessState::Ready, 0, {}, 0}
     };
+<<<<<<< HEAD
+=======
+    return processes;
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
 }
 
 std::vector<PCB> MiniOS::createProcessesWithPages(const std::vector<int>& pageStream) const {
@@ -91,19 +123,31 @@ std::vector<PCB> MiniOS::createProcessesWithPages(const std::vector<int>& pageSt
             }
         }
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
     return processes;
 }
 
 void MiniOS::runProcessorSchedulingExperiment() {
+<<<<<<< HEAD
     std::cout << "\n========== 实验一：处理机调度 ==========\n";
     std::cout << "调度算法：时间片轮转法（Round Robin），时间片大小为 1。\n";
+=======
+    std::cout << "\n========== 实验一：处理机调度 ==========" << '\n';
+    std::cout << "调度算法：时间片轮转法（Round Robin），时间片大小为 1。" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
 
     auto processes = createDefaultProcesses();
     RoundRobinScheduler scheduler;
     scheduler.reset(processes);
 
+<<<<<<< HEAD
     std::cout << "\n初始 PCB 状态：\n";
+=======
+    std::cout << "\n初始 PCB 状态：" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
     printPCBTable(processes);
     printReadyQueue(processes, scheduler.readyQueueSnapshot());
 
@@ -115,14 +159,31 @@ void MiniOS::runProcessorSchedulingExperiment() {
 
         std::cout << "\n[时间片 " << timeSlice << "] 选中进程：" << current.name << '\n';
         current.runOneTimeSlice();
+<<<<<<< HEAD
         scheduler.finishTimeSlice(current, index);
         updateNextIndices(processes, scheduler.readyQueueSnapshot());
 
         std::cout << "运行后 PCB 状态：\n";
+=======
+
+        scheduler.finishTimeSlice(current, index);
+        auto queueAfterFinish = scheduler.readyQueueSnapshot();
+        for (auto& p : processes) {
+            p.nextIndex = -1;
+        }
+        for (std::size_t i = 0; i < queueAfterFinish.size(); ++i) {
+            int curr = queueAfterFinish[i];
+            int next = queueAfterFinish[(i + 1) % queueAfterFinish.size()];
+            processes[curr].nextIndex = next;
+        }
+
+        std::cout << "运行后 PCB 状态：" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
         printPCBTable(processes);
         printReadyQueue(processes, scheduler.readyQueueSnapshot());
     }
 
+<<<<<<< HEAD
     std::cout << "\n所有进程均已结束，处理机调度实验完成。\n";
 }
 
@@ -136,14 +197,32 @@ void MiniOS::runMemoryExperiment(bool useDefaultInput) {
     unsigned int seed = static_cast<unsigned int>(useDefaultInput
         ? 2026
         : readInt("请输入随机种子 [默认 2026]：", 2026, 1, 999999));
+=======
+    std::cout << "\n所有进程均已结束，处理机调度实验完成。" << '\n';
+}
+
+void MiniOS::runMemoryExperiment(bool useDefaultInput) {
+    std::cout << "\n========== 实验二：虚拟存储页面置换 ==========" << '\n';
+    std::cout << "页面置换算法：LRU（最近最少使用）。" << '\n';
+
+    int frameCountForDetail = useDefaultInput ? 4 : readInt("请输入用于详细展示的物理块数 [默认 4，范围 4-32]：", 4, 4, 32);
+    unsigned int seed = static_cast<unsigned int>(useDefaultInput ? 2026 : readInt("请输入随机种子 [默认 2026]：", 2026, 1, 999999));
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
 
     auto instructions = LRUMemoryManager::generateInstructionStream(320, seed);
     auto pages = LRUMemoryManager::toPageStream(instructions);
 
+<<<<<<< HEAD
     std::cout << "\n生成的页地址流如下：\n";
     printPageStream(pages, 320);
 
     std::cout << "\n前 40 次访问的内存物理块变化：\n";
+=======
+    std::cout << "\n生成的页地址流如下：" << '\n';
+    printPageStream(pages, 320);
+
+    std::cout << "\n前 40 次访问的内存物理块变化：" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
     LRUMemoryManager detailManager(frameCountForDetail);
     for (int i = 0; i < 40 && i < static_cast<int>(pages.size()); ++i) {
         auto result = detailManager.accessPage(pages[i]);
@@ -160,12 +239,20 @@ void MiniOS::runMemoryExperiment(bool useDefaultInput) {
         std::cout << '\n';
     }
 
+<<<<<<< HEAD
     std::cout << "\n不同内存容量下的 LRU 命中率：\n";
+=======
+    std::cout << "\n不同内存容量下的 LRU 命中率：" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
     std::cout << std::left << std::setw(10) << "物理块数"
               << std::setw(12) << "访问次数"
               << std::setw(12) << "缺页次数"
               << std::setw(12) << "置换次数"
+<<<<<<< HEAD
               << "命中率\n";
+=======
+              << "命中率" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
     std::cout << std::string(58, '-') << '\n';
 
     for (int frames = 4; frames <= 32; ++frames) {
@@ -179,6 +266,7 @@ void MiniOS::runMemoryExperiment(bool useDefaultInput) {
 }
 
 void MiniOS::runIntegratedExperiment(bool useDefaultInput) {
+<<<<<<< HEAD
     std::cout << "\n========== 综合运行：调度 + LRU 存储管理 ==========\n";
     std::cout << "处理机调度：时间片轮转；页面置换：LRU。\n";
 
@@ -188,6 +276,13 @@ void MiniOS::runIntegratedExperiment(bool useDefaultInput) {
     unsigned int seed = static_cast<unsigned int>(useDefaultInput
         ? 2026
         : readInt("请输入随机种子 [默认 2026]：", 2026, 1, 999999));
+=======
+    std::cout << "\n========== 综合运行：调度 + LRU 存储管理 ==========" << '\n';
+    std::cout << "处理机调度：时间片轮转；页面置换：LRU。" << '\n';
+
+    int frameCount = useDefaultInput ? 4 : readInt("请输入综合运行的物理块数 [默认 4，范围 4-32]：", 4, 4, 32);
+    unsigned int seed = static_cast<unsigned int>(useDefaultInput ? 2026 : readInt("请输入随机种子 [默认 2026]：", 2026, 1, 999999));
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
 
     auto instructions = LRUMemoryManager::generateInstructionStream(320, seed);
     auto pages = LRUMemoryManager::toPageStream(instructions);
@@ -197,7 +292,11 @@ void MiniOS::runIntegratedExperiment(bool useDefaultInput) {
     LRUMemoryManager memory(frameCount);
     scheduler.reset(processes);
 
+<<<<<<< HEAD
     std::cout << "\n初始 PCB 状态：\n";
+=======
+    std::cout << "\n初始 PCB 状态：" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
     printPCBTable(processes);
     printReadyQueue(processes, scheduler.readyQueueSnapshot());
 
@@ -211,9 +310,24 @@ void MiniOS::runIntegratedExperiment(bool useDefaultInput) {
         auto memoryResult = memory.accessPage(page);
         current.runOneTimeSlice();
         scheduler.finishTimeSlice(current, index);
+<<<<<<< HEAD
         updateNextIndices(processes, scheduler.readyQueueSnapshot());
 
         std::cout << "\n[时间片 " << timeSlice << "]\n";
+=======
+
+        auto queueAfterFinish = scheduler.readyQueueSnapshot();
+        for (auto& p : processes) {
+            p.nextIndex = -1;
+        }
+        for (std::size_t i = 0; i < queueAfterFinish.size(); ++i) {
+            int curr = queueAfterFinish[i];
+            int next = queueAfterFinish[(i + 1) % queueAfterFinish.size()];
+            processes[curr].nextIndex = next;
+        }
+
+        std::cout << "\n[时间片 " << timeSlice << "]" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
         std::cout << "运行进程：" << current.name << '\n';
         std::cout << "访问页号：" << page << '\n';
         std::cout << "页面结果：" << (memoryResult.hit ? "命中" : "缺页");
@@ -226,20 +340,34 @@ void MiniOS::runIntegratedExperiment(bool useDefaultInput) {
         std::cout << '\n';
         std::cout << "累计缺页次数：" << memoryResult.pageFaults
                   << "，累计置换次数：" << memoryResult.replacements
+<<<<<<< HEAD
                   << "，当前命中率：" << std::fixed << std::setprecision(4)
                   << memoryResult.hitRate << '\n';
 
         std::cout << "当前 PCB 状态：\n";
+=======
+                  << "，当前命中率：" << std::fixed << std::setprecision(4) << memoryResult.hitRate << '\n';
+
+        std::cout << "当前 PCB 状态：" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
         printPCBTable(processes);
         printReadyQueue(processes, scheduler.readyQueueSnapshot());
     }
 
+<<<<<<< HEAD
     std::cout << "\n综合运行完成。\n";
     std::cout << "总访问次数：" << memory.totalAccesses()
               << "，缺页次数：" << memory.pageFaults()
               << "，置换次数：" << memory.replacements()
               << "，命中率：" << std::fixed << std::setprecision(4)
               << memory.hitRate() << '\n';
+=======
+    std::cout << "\n综合运行完成。" << '\n';
+    std::cout << "总访问次数：" << memory.totalAccesses()
+              << "，缺页次数：" << memory.pageFaults()
+              << "，置换次数：" << memory.replacements()
+              << "，命中率：" << std::fixed << std::setprecision(4) << memory.hitRate() << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
 }
 
 void MiniOS::printPCBTable(const std::vector<PCB>& processes) const {
@@ -247,7 +375,11 @@ void MiniOS::printPCBTable(const std::vector<PCB>& processes) const {
               << std::setw(14) << "要求运行时间"
               << std::setw(14) << "已运行时间"
               << std::setw(10) << "状态"
+<<<<<<< HEAD
               << "next\n";
+=======
+              << "next" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
     std::cout << std::string(58, '-') << '\n';
 
     for (const auto& process : processes) {
@@ -259,7 +391,11 @@ void MiniOS::printPCBTable(const std::vector<PCB>& processes) const {
         std::cout << std::left << std::setw(8) << process.name
                   << std::setw(14) << process.requiredTime
                   << std::setw(14) << process.usedTime
+<<<<<<< HEAD
                   << std::setw(10) << stateToText(process.state)
+=======
+                  << std::setw(10) << std::string(1, stateToChar(process.state))
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
                   << nextName << '\n';
     }
 }
@@ -267,7 +403,11 @@ void MiniOS::printPCBTable(const std::vector<PCB>& processes) const {
 void MiniOS::printReadyQueue(const std::vector<PCB>& processes, const std::vector<int>& readyQueue) const {
     std::cout << "就绪队列：";
     if (readyQueue.empty()) {
+<<<<<<< HEAD
         std::cout << "空\n";
+=======
+        std::cout << "空" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
         return;
     }
 
@@ -321,12 +461,20 @@ int MiniOS::readInt(const std::string& prompt, int defaultValue, int minValue, i
     try {
         int value = std::stoi(line);
         if (value < minValue || value > maxValue) {
+<<<<<<< HEAD
             std::cout << "输入超出范围，使用默认值 " << defaultValue << "。\n";
+=======
+            std::cout << "输入超出范围，使用默认值 " << defaultValue << "。" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
             return defaultValue;
         }
         return value;
     } catch (...) {
+<<<<<<< HEAD
         std::cout << "输入无效，使用默认值 " << defaultValue << "。\n";
+=======
+        std::cout << "输入无效，使用默认值 " << defaultValue << "。" << '\n';
+>>>>>>> d43ace2f57b7d226bfea79c0fbde8a92a3578f75
         return defaultValue;
     }
 }
